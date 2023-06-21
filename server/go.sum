@@ -8,3 +8,5 @@ github.com/go-chi/render v1.0.2 h1:4ER/udB0+fMWB2Jlf15RV3F4A2FDuYi/9f+lFttR/Lg=
 github.com/go-chi/render v1.0.2/go.mod h1:/gr3hVkmYR0YlEy3LxCuVRFzEu9Ruok+gFqbIofjao0=
 github.com/mattn/go-sqlite3 v1.14.17 h1:mCRHCLDUBXgpKAqIKsaAaAsrAlbkeomtRFKXh2L6YIM=
 github.com/mattn/go-sqlite3 v1.14.17/go.mod h1:2eHXhiwb8IkHr+BDWZGa96P6+rkvnG63S2DGjv9HUNg=
+github.com/tombuente/tresor/spec v0.0.0-20230621201756-73948aefda6e h1:pqMVHX0sB5MQtgqdzBUk2PL986woU+pqC/JApRt3/Qo=
+github.com/tombuente/tresor/spec v0.0.0-20230621201756-73948aefda6e/go.mod h1:HYLncAsHD+yK0Q3KBeMartBw9yguEVpXb0K4ibctEdA=
