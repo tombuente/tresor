@@ -5,20 +5,30 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/tombuente/tresor/store"
+	"github.com/tombuente/tresor/server/store"
 )
 
 const encodingBase = 36
 
-type Service struct {
+var _ Service = (*serviceImpl)(nil)
+
+type Service interface {
+	GetLanguage(ctx context.Context, id int64) (Language, error)
+	GetLanguageByName(ctx context.Context, name string) (Language, error)
+
+	GetSnippet(ctx context.Context, key string) (Snippet, error)
+	AddSnippet(ctx context.Context, content string, langauge Language) (Snippet, error)
+}
+
+type serviceImpl struct {
 	queries *store.Queries
 }
 
-func NewService(queries *store.Queries) Service {
-	return Service{queries}
+func NewService(queries *store.Queries) serviceImpl {
+	return serviceImpl{queries}
 }
 
-func (service Service) GetLanguage(ctx context.Context, id int64) (Language, error) {
+func (service serviceImpl) GetLanguage(ctx context.Context, id int64) (Language, error) {
 	languageDao, err := service.queries.GetCodeLanguage(ctx, id)
 	if err != nil {
 		return Language{}, errors.New("Language not found")
@@ -27,7 +37,7 @@ func (service Service) GetLanguage(ctx context.Context, id int64) (Language, err
 	return NewLanguage(languageDao.ID, languageDao.Name), nil
 }
 
-func (service Service) GetLanguageByName(ctx context.Context, name string) (Language, error) {
+func (service serviceImpl) GetLanguageByName(ctx context.Context, name string) (Language, error) {
 	languageDao, err := service.queries.GetCodeLanguageByName(ctx, name)
 	if err != nil {
 		return Language{}, errors.New("Language not found")
@@ -36,7 +46,7 @@ func (service Service) GetLanguageByName(ctx context.Context, name string) (Lang
 	return NewLanguage(languageDao.ID, languageDao.Name), nil
 }
 
-func (service Service) GetSnippet(ctx context.Context, key string) (Snippet, error) {
+func (service serviceImpl) GetSnippet(ctx context.Context, key string) (Snippet, error) {
 	id, err := strconv.ParseInt(key, encodingBase, 64)
 	if err != nil {
 		return Snippet{}, errors.New("bad key")
@@ -50,7 +60,7 @@ func (service Service) GetSnippet(ctx context.Context, key string) (Snippet, err
 	return NewSnippet(snippetDoa.ID, strconv.FormatInt(snippetDoa.ID, encodingBase), snippetDoa.Content, NewLanguage(snippetDoa.LangaugeID, snippetDoa.LanguageName)), nil
 }
 
-func (service Service) AddSnippet(ctx context.Context, content string, langauge Language) (Snippet, error) {
+func (service serviceImpl) AddSnippet(ctx context.Context, content string, langauge Language) (Snippet, error) {
 	snippetDoa, err := service.queries.CreateCodeSnippet(ctx, store.CreateCodeSnippetParams{Content: content, LanguageID: langauge.ID})
 	if err != nil {
 		return Snippet{}, errors.New("unable to create snippet")

@@ -1,4 +1,4 @@
-module github.com/tombuente/tresor
+module github.com/tombuente/tresor/server
 
 go 1.20
 

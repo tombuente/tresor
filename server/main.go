@@ -16,10 +16,10 @@ import (
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/tombuente/tresor/api"
-	"github.com/tombuente/tresor/service/health"
-	"github.com/tombuente/tresor/service/snippet"
-	"github.com/tombuente/tresor/store"
+	"github.com/tombuente/tresor/server/api"
+	"github.com/tombuente/tresor/server/service/health"
+	"github.com/tombuente/tresor/server/service/snippet"
+	"github.com/tombuente/tresor/server/store"
 )
 
 //go:embed scheme.sql

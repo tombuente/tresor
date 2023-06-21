@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
-	"github.com/tombuente/tresor/service/health"
+	"github.com/tombuente/tresor/server/service/health"
 )
 
 type healthHandler struct {

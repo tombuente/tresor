@@ -3,15 +3,21 @@ package health
 import (
 	"context"
 
-	"github.com/tombuente/tresor/service/base"
+	"github.com/tombuente/tresor/spec/healthspec"
 )
 
-type Service struct{}
+var _ Service = (*serviceImpl)(nil)
 
-func NewService() Service {
-	return Service{}
+type Service interface {
+	GetHealth(ctx context.Context) healthspec.HealthRes
 }
 
-func (service Service) GetHealth(ctx context.Context) base.SimpleMessage {
-	return base.SimpleMessage{Message: "API is healthy."}
+type serviceImpl struct{}
+
+func NewService() Service {
+	return serviceImpl{}
+}
+
+func (service serviceImpl) GetHealth(ctx context.Context) healthspec.HealthRes {
+	return healthspec.HealthRes{Message: "API is healthy."}
 }

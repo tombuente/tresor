@@ -6,21 +6,16 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
-	"github.com/tombuente/tresor/service/snippet"
+	"github.com/tombuente/tresor/server/service/snippet"
+	"github.com/tombuente/tresor/spec/snippetspec"
 )
 
 type snippetHandler struct {
 	service snippet.Service
 }
 
-type SnippetResponse struct {
-	Key      string `json:"key"`
-	Content  string `json:"content"`
-	Language string `json:"language"`
-}
-
-func snippetResponseFromServiceSnippet(snippet snippet.Snippet) SnippetResponse {
-	return SnippetResponse{
+func snippetResToSpec(snippet snippet.Snippet) snippetspec.SnippetRes {
+	return snippetspec.SnippetRes{
 		Key:      snippet.Key,
 		Content:  snippet.Content,
 		Language: snippet.Language.Name,
@@ -50,11 +45,11 @@ func (handler snippetHandler) getSnippet(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	render.JSON(w, r, snippetResponseFromServiceSnippet(snippet))
+	render.JSON(w, r, snippetResToSpec(snippet))
 }
 
 func (handler snippetHandler) postSnippet(w http.ResponseWriter, r *http.Request) {
-	var body SnippetResponse
+	var body snippetspec.SnippetRes
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
 		render.Render(w, r, NewTextErrorRenderer("cannot parse body", http.StatusBadRequest))
@@ -73,5 +68,5 @@ func (handler snippetHandler) postSnippet(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	render.JSON(w, r, snippetResponseFromServiceSnippet(snippet))
+	render.JSON(w, r, snippetResToSpec(snippet))
 }
