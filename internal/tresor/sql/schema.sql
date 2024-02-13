@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS snippets (
+	id INTEGER PRIMARY KEY,
+	content TEXT NOT NULL,
+	language VARCHAR(20) NOT NULL
+);

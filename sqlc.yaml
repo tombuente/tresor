@@ -1,0 +1,14 @@
+version: 2
+sql:
+  - engine: "sqlite"
+    schema: "internal/tresor/sql/schema.sql"
+    queries: "internal/tresor/sql/queries.sql"
+    gen:
+      go:
+        package: "tresor"
+        out: "internal/tresor"
+
+overrides:
+  go:
+    rename:
+      snippet: SnippetModel
